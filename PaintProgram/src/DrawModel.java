@@ -2,14 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  * Logic for calculating Figures using coordinates.
  * Stores all generated Figures
  */
-public class DrawModel implements Serializable {
+public class DrawModel {
 
     private LinkedList<Figures> figureList = new LinkedList<>();
     private int y, x, y2, x2;

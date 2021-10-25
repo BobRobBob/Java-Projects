@@ -7,6 +7,8 @@ import java.io.Serializable;
  *
  */
 public class Figures implements Serializable {
+
+
     private final Shape shape;
     private final Color color;
 
