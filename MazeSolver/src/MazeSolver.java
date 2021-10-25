@@ -5,35 +5,23 @@ import java.util.ArrayList;
 
 public class MazeSolver {
 
+    //0 = wall
+    //1 = path
+    //2 = destination
+
     static int counter = 0;
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        ArrayList<Maze> mazes = new ArrayList<Maze>();
-
-        Maze m = new Maze();
-
-        Scanner in = new Scanner(new File("mazes2.txt"));
-        int rows = Integer.parseInt(in.nextLine());
-        m.maze = new int[rows][];
-
-        for(int i = 0; i < rows; i++){
-            String line = in.nextLine();
-            m.maze[i] = Arrays.stream(line.split(", ")).mapToInt(Integer::parseInt).toArray();
-
-        }
-
-        m.start = new Position(Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine()));
-        m.path = new LinkedList<Position>();
-
+        ArrayList<Maze> mazes = readMazes();
+        
         int i = 0;
-
         while(i < mazes.size()) {
             if (solveMaze(mazes.get(i))){
-                System.out.println("You won! It took: " + (counter + 1) + " tries");
+                System.out.println("You won! It took: " + (counter + 1) + " tries" + "\n");
                 counter = 0;
             } else {
-                System.out.println("No path, took: " + (counter + 1) + " tries to figure out");
+                System.out.println("No path, took: " + (counter + 1) + " tries to figure out" + "\n");
                 counter = 0;
             }
             i++;
@@ -112,6 +100,32 @@ public class MazeSolver {
         if(y < 0 || y >= m.maze.length || x < 0 || x >= m.maze[y].length){
           return false;
         } return true;
+    }
+
+    public static ArrayList<Maze> readMazes() throws FileNotFoundException{
+        ArrayList<Maze> mazes = new ArrayList<Maze>();
+        Scanner in = new Scanner(new File("mazes2.txt"));
+
+        while(in.hasNext()){
+            Maze m = new Maze();
+            int rows = Integer.parseInt(in.nextLine());
+
+            m.maze = new int[rows][];
+
+            for(int i = 0; i < rows; i++){
+                String line = in.nextLine();
+                m.maze[i] = Arrays.stream(line.split(", ")).mapToInt(Integer::parseInt).toArray();
+            }
+            m.start = new Position(Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine()));
+
+            in.nextLine(); //moves to next maze
+
+            mazes.add(m);
+        }
+        in.close();
+
+
+        return mazes;
     }
 
 }
