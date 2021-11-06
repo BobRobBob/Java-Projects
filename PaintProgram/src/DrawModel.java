@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 
@@ -14,6 +15,7 @@ public class DrawModel {
     private int y, x, y2, x2;
     private Color color;
     private String mode;
+    private float lineWidth = 2.0f;
     private final JLabel statusPanelText;
     private boolean clicked; //needed so paintComponent only draws "temp" figure during a mouse drag
 
@@ -67,6 +69,8 @@ public class DrawModel {
         this.clicked = b;
     }
     public boolean getClicked(){return this.clicked;}
+    public float getLineWidth(){return this.lineWidth;}
+
     //----------------------------------------------------------
 
     //----Methods-----------------------------------------------
@@ -105,7 +109,7 @@ public class DrawModel {
     }
 
     /**
-     * Calculate ellipse "corners"
+     * Calculate ellipse "corners".
      * @return an Ellipse2D object
      */
     public Ellipse2D drawEllips(){
@@ -114,6 +118,19 @@ public class DrawModel {
         int pw = Math.abs(x-x2);
         int ph = Math.abs(y-y2);
         return new Ellipse2D.Double(px, py, pw, ph);
+    }
+
+    /**
+     * Draws a line from star to end position.
+     * @return a Line2D object
+     */
+    public Line2D drawLine(){
+        int sx = x;
+        int sy = y;
+        int ex = x2;
+        int ey = y2;
+        return new Line2D.Double(sx, sy, ex, ey) {
+        };
     }
 
     /**

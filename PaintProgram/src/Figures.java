@@ -8,9 +8,9 @@ import java.io.Serializable;
  */
 public class Figures implements Serializable {
 
-
     private final Shape shape;
     private final Color color;
+    private float lineWidth;
 
     /**
      * Constructor for new figure with shape and color.
@@ -23,6 +23,11 @@ public class Figures implements Serializable {
         this.shape = s;
         this.color = c;
     }
+    public Figures(Shape s, Color c, float lineWidth){
+        this.shape = s;
+        this.color = c;
+        this.lineWidth = lineWidth;
+    }
     //--------------------------------------------------
 
     //----Getters and setters---------------------------
@@ -32,5 +37,8 @@ public class Figures implements Serializable {
     public Shape getShape(){
         return shape;
     }
+    public void setLineWidth(float lineWidth){this.lineWidth = lineWidth;}
+    //TODO -create pull down menu with selectable linewidth
+    public float getLineWidth(){return this.lineWidth;}
     //---------------------------------------------------
 }

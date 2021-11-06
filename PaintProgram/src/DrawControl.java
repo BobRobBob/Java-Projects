@@ -70,6 +70,7 @@ public class DrawControl extends JFrame {
             JButton dot = new JButton("dot");
             JButton oval = new JButton("oval");
             JButton rect = new JButton("rect");
+            JButton line = new JButton("line");
             JButton undo = new JButton("undo");
             JButton save = new JButton("save");
             JButton load = new JButton("load");
@@ -80,6 +81,7 @@ public class DrawControl extends JFrame {
             add(dot);
             add(oval);
             add(rect);
+            add(line);
             add(undo);
             add(save);
             add(load);
@@ -90,6 +92,7 @@ public class DrawControl extends JFrame {
             dot.addActionListener(new ButtonListener());
             oval.addActionListener(new ButtonListener());
             rect.addActionListener(new ButtonListener());
+            line.addActionListener(new ButtonListener());
             undo.addActionListener(new ButtonListener());
             save.addActionListener(new ButtonListener());
             load.addActionListener(new ButtonListener());
@@ -132,6 +135,10 @@ public class DrawControl extends JFrame {
                 model.setMode("RECTANGLE");
                 model.setModePanelText();
             }
+            if (input.equals("line")){
+                model.setMode(("LINE"));
+                model.setModePanelText();
+            }
             if (input.equals("undo")) {
                 if(model.getFigure() != null){
                     model.undoFigure();
@@ -172,7 +179,7 @@ public class DrawControl extends JFrame {
                 model.setFigure(f);
                 view.repaint();
             }
-            if (model.getMode().equals("RECTANGLE") || model.getMode().equals("OVAL")) {
+            if (model.getMode().equals("RECTANGLE") || model.getMode().equals("OVAL") || model.getMode().equals("LINE")) {
                 model.setClicked(true);
                 model.setStartPoint(e.getX(), e.getY());
                 model.setEndPoint(e.getX(), e.getY());
@@ -185,7 +192,7 @@ public class DrawControl extends JFrame {
          * @param e automatically generated when mouse are pressed
          */
         public void mouseDragged(MouseEvent e) {
-            if(model.getMode().equals("RECTANGLE") || model.getMode().equals("OVAL")) {
+            if(model.getMode().equals("RECTANGLE") || model.getMode().equals("OVAL") || model.getMode().equals("LINE")) {
                 model.setEndPoint(e.getX(), e.getY());
                 view.repaint();
             }
@@ -204,6 +211,11 @@ public class DrawControl extends JFrame {
             }
             if(model.getMode().equals("OVAL")) {
                 Figures f = new Figures(model.drawEllips(), model.getColor());
+                model.setFigure(f);
+                view.repaint();
+            }
+            if(model.getMode().equals("LINE")) {
+                Figures f = new Figures(model.drawLine(), model.getColor(), model.getLineWidth());
                 model.setFigure(f);
                 view.repaint();
             }

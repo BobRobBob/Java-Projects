@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
 
 /**
  * Draw surface.
@@ -7,7 +8,7 @@ import java.awt.*;
  * Gets data from DrawModel and DrawControl
  */
 public class DrawView extends JPanel {
-
+    
     private final DrawModel model;
 
     //----Constructor----------------------------------------------
@@ -34,6 +35,10 @@ public class DrawView extends JPanel {
         if (model.getFigure() != null) {
             for (Figures s : model.getFigureList()) {
                 g2d.setColor(s.getColor());
+                if(s.getShape() instanceof Line2D){
+                    g2d.setStroke(new BasicStroke(s.getLineWidth()));
+                    g2d.draw(s.getShape());
+                } else
                 g2d.fill(s.getShape());
             }
         }
@@ -43,9 +48,14 @@ public class DrawView extends JPanel {
                 g2d.setColor(model.getColor());
                 g2d.fill(model.drawRect());
             }
-            if (model.getMode().equals("OVAL")) {
+            if (model.getMode().equals("OVAL")){
                 g2d.setColor(model.getColor());
                 g2d.fill((model.drawEllips()));
+            }
+            if (model.getMode().equals("LINE")){
+                g2d.setColor(model.getColor());
+                g2d.setStroke(new BasicStroke(model.getLineWidth()));
+                g2d.draw(model.drawLine());
             }
         }
     }
