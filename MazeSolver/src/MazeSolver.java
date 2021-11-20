@@ -14,7 +14,7 @@ public class MazeSolver {
     public static void main(String[] args) throws FileNotFoundException {
 
         ArrayList<Maze> mazes = readMazes();
-        
+
         int i = 0;
         while(i < mazes.size()) {
             if (solveMaze(mazes.get(i))){
@@ -104,7 +104,7 @@ public class MazeSolver {
 
     public static ArrayList<Maze> readMazes() throws FileNotFoundException{
         ArrayList<Maze> mazes = new ArrayList<Maze>();
-        Scanner in = new Scanner(new File("mazes2.txt"));
+        Scanner in = new Scanner(new File("mazes3.txt"));
 
         while(in.hasNext()){
             Maze m = new Maze();
