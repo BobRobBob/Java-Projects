@@ -11,6 +11,8 @@ import java.util.Random;
  * @version 2019-01-17
  * @author Pelle Evensen
  * @version 2020-01-21
+ * @version 2022-01-25 - Added difficult level
+ * @author Robert Nilsson
  */
 public class GameGenerator implements Iterable<Integer> {
     public final static int BLANK_MARKING = 0;
@@ -18,10 +20,12 @@ public class GameGenerator implements Iterable<Integer> {
     private static Random random = new Random();
     private final int[] marks;
     private long modCount = 0;
+    private int diff; //Sets times the board gets "shuffled"
 
-    public GameGenerator(final int gameSize) {
+    public GameGenerator(final int gameSize, int diff) {
         this.gameSize = gameSize;
         this.marks = new int[gameSize * gameSize];
+        this.diff = diff;
         generateMarks();
     }
 
@@ -36,7 +40,7 @@ public class GameGenerator implements Iterable<Integer> {
         int blankpos = this.marks.length - 1;
         this.marks[blankpos] = BLANK_MARKING;
         // Shuffle the configuration, respecting the rules of the game.
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < diff; i++) {
             final int randpos = randomNeighbour(blankpos);
             swap(this.marks, blankpos, randpos);
             blankpos = randpos;

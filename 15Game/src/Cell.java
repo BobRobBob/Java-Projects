@@ -12,13 +12,12 @@ public class Cell extends JButton implements ActionListener {
     private int pos;
 
     //Konstruktor
-    public Cell(int a, int b, int c, FifteenGame f, int p){
+    public Cell(int a, int b, int c, FifteenGame f){
         addActionListener(this); //lyssnar efter klick på sig själv
-        this.board = f;
         this.self = a;
         this.row = b;
         this.col = c;
-        //this.pos = p;
+        this.board = f;
         if(self == 0){
             setText("");
         } else

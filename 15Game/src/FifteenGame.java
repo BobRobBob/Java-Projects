@@ -4,48 +4,52 @@ import java.util.LinkedList;
 
 public class FifteenGame extends JFrame {
 
-    private GameGenerator generator = new GameGenerator(4);
+    private int gameSize;
+    private int diff;
+
     private LinkedList<Cell> gameBoard = new LinkedList<Cell>();
-    private int[] rowArray = new int[16];
-    private int[] colArray = new int[16];
     private Cell blank;
     private int moves;
 
-    public FifteenGame(){
+    public FifteenGame(int gameSize, int diff){
         super("Fifteen game");
         setSize(400,400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(4,4,3,3));
+        this.gameSize = gameSize;
+        this.diff = diff;
+        setLayout(new GridLayout(gameSize,gameSize,3,3));
+        GameGenerator generator = new GameGenerator(this.gameSize, this.diff);
 
         //Skapa koordinater för cellerna
         int count = 0;
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
+        int[] rowArray = new int[gameSize*gameSize];
+        int[] colArray = new int[gameSize*gameSize];
+        for(int i = 0; i < gameSize; i++){
+            for(int j = 0; j < gameSize; j++){
                 rowArray[count] = i;
                 colArray[count] = j;
                 count++;
             }
         }
 
-        //Tilldela varje Cell ett tal och ursprungliga koordinater, spara även tomma rutans koordinater
+        //Tilldela varje Cell ett tal och ursprungliga koordinater, spara även tomma rutans koordinater för referens
         count = 0;
         for(int i : generator) {
             if(i==0){
-                blank = new Cell(i, rowArray[count], colArray[count], this, count);
+                blank = new Cell(i, rowArray[count], colArray[count], this);
                 gameBoard.add(blank);
             } else
-            gameBoard.add(new Cell(i, rowArray[count], colArray[count], this, count));
+            gameBoard.add(new Cell(i, rowArray[count], colArray[count], this));
             count++;
         }
 
         int c = 1;
-        for(int i = 0; i < 16; i++){
+        for(int i = 0; i < (gameSize*gameSize); i++){
             add(gameBoard.get(c - 1));
             c++;
         }
 
-        //Lägg till varje cell till framen
         setVisible(true);
     }
 //----Setters and Getters-----------------------------------
@@ -59,16 +63,13 @@ public class FifteenGame extends JFrame {
     public void setMoves(){
         this.moves++;
     }
-    public LinkedList<Cell> getGameBoard(){
-        return this.gameBoard;
-    }
+
 //----------------------------------------------------------
     //kontrollera om alla celler ligger i rätt ordning
     public boolean hasWon() {
         int comp = 1;
-        boolean r = false;
         for (Cell i : gameBoard) {
-            if(comp == 16){
+            if(comp == (gameSize*gameSize)){
                 comp = 0;
             }
             if (i.getT() != comp) {
@@ -86,7 +87,7 @@ public class FifteenGame extends JFrame {
 
     //----Main
     public static void main(String[] args){
-        new FifteenGame();
+        new SelectDifficulty();
     }
-    
+
 }
